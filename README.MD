@@ -8,7 +8,7 @@ This is a test assignment: a small REST CRUD service to manage spy cats, their m
 cp .env.example .env
 ```
 - .env.example lists all variables required in .env. Copy and adjust as needed.
-- CAT_CLIENT_API_KEY: obtain a key at https://api.thecatapi.com and put it into your .env.
+- CAT_CLIENT_API_KEY: obtain a key at https://thecatapi.com/ and put it into your .env.
 
 2) Start the app and database with Docker:
 ```bash
