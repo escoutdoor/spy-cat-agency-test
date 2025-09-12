@@ -1,0 +1,398 @@
+{
+	"info": {
+		"_postman_id": "832e24bc-2ba0-464d-ae94-44b64536b2e2",
+		"name": "spy-cat-agency",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26451125"
+	},
+	"item": [
+		{
+			"name": "cats",
+			"item": [
+				{
+					"name": "create cat",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Murchik\",\r\n    \"yearsOfExperience\": 1,\r\n    \"breed\": \"American Shorthair\",\r\n    \"salary\": 1800\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ADDRESS}}/v1/cats",
+							"host": [
+								"{{ADDRESS}}"
+							],
+							"path": [
+								"v1",
+								"cats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get cat",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{ADDRESS}}/v1/cats/96726ee9-b509-41ea-80f5-94c878ab2e66",
+							"host": [
+								"{{ADDRESS}}"
+							],
+							"path": [
+								"v1",
+								"cats",
+								"96726ee9-b509-41ea-80f5-94c878ab2e66"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list_cats",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{ADDRESS}}/v1/cats?limit=10&offset=0",
+							"host": [
+								"{{ADDRESS}}"
+							],
+							"path": [
+								"v1",
+								"cats"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update cat",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"salary\": 1900\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ADDRESS}}/v1/cats/96726ee9-b509-41ea-80f5-94c878ab2e66",
+							"host": [
+								"{{ADDRESS}}"
+							],
+							"path": [
+								"v1",
+								"cats",
+								"96726ee9-b509-41ea-80f5-94c878ab2e66"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete cat",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{ADDRESS}}/v1/cats/678891aa-f6a5-40a9-9897-a02cdc9cd988",
+							"host": [
+								"{{ADDRESS}}"
+							],
+							"path": [
+								"v1",
+								"cats",
+								"678891aa-f6a5-40a9-9897-a02cdc9cd988"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "targets",
+			"item": [
+				{
+					"name": "add targets",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"targets\": [\r\n        {\r\n            \"name\": \"Mission #3\",\r\n            \"country\": \"Poland\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ADDRESS}}/v1/targets/9a199729-6cff-4a4d-aee7-273e7851746c",
+							"host": [
+								"{{ADDRESS}}"
+							],
+							"path": [
+								"v1",
+								"targets",
+								"9a199729-6cff-4a4d-aee7-273e7851746c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete target",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{ADDRESS}}/v1/targets/1413dcd9-cafe-41fd-aa78-ee2356a07d96",
+							"host": [
+								"{{ADDRESS}}"
+							],
+							"path": [
+								"v1",
+								"targets",
+								"1413dcd9-cafe-41fd-aa78-ee2356a07d96"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update target",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"completed\":true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ADDRESS}}/v1/targets/a9f42217-78d7-4a5f-b76c-1bd8ff3a95b0",
+							"host": [
+								"{{ADDRESS}}"
+							],
+							"path": [
+								"v1",
+								"targets",
+								"a9f42217-78d7-4a5f-b76c-1bd8ff3a95b0"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "missions",
+			"item": [
+				{
+					"name": "create mission",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"targets\": [\r\n        {\r\n            \"name\": \"Mission #1\",\r\n            \"country\": \"Ukraine\"\r\n        },\r\n        {\r\n            \"name\": \"Mission #2\",\r\n            \"country\": \"Italy\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ADDRESS}}/v1/missions",
+							"host": [
+								"{{ADDRESS}}"
+							],
+							"path": [
+								"v1",
+								"missions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete mission",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ADDRESS}}/v1/missions/a",
+							"host": [
+								"{{ADDRESS}}"
+							],
+							"path": [
+								"v1",
+								"missions",
+								"a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get mission",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ADDRESS}}/v1/missions/9a199729-6cff-4a4d-aee7-273e7851746c",
+							"host": [
+								"{{ADDRESS}}"
+							],
+							"path": [
+								"v1",
+								"missions",
+								"9a199729-6cff-4a4d-aee7-273e7851746c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list missions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ADDRESS}}/v1/missions?limit=3&offset=0",
+							"host": [
+								"{{ADDRESS}}"
+							],
+							"path": [
+								"v1",
+								"missions"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "3"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update mission",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"catId\": \"678891aa-f6a5-40a9-9897-a02cdc9cd988\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ADDRESS}}/v1/missions/71392059-3259-4982-9cf3-769a6be8a7f9",
+							"host": [
+								"{{ADDRESS}}"
+							],
+							"path": [
+								"v1",
+								"missions",
+								"71392059-3259-4982-9cf3-769a6be8a7f9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "ADDRESS",
+			"value": "http://localhost:4040",
+			"type": "string"
+		}
+	]
+}

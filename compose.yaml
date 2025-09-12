@@ -1,0 +1,28 @@
+services:
+  spy-cat-agency:
+    container_name: spy-cat-agency
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 4040:4040
+    env_file:
+      - .env
+    depends_on:
+      - pg
+
+  pg:
+    container_name: pg
+    image: postgres:17.5
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: spy-cat-agency
+      POSTGRES_USER: ivan
+      POSTGRES_PASSWORD: popov
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+volumes:
+  pg_data:
