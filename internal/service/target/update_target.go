@@ -25,8 +25,31 @@ func (s *service) UpdateTarget(ctx context.Context, in dto.UpdateTargetParams) e
 		return apperrors.MissionAlreadyCompletedWithID(target.MissionID)
 	}
 
-	if err := s.targetRepository.UpdateTarget(ctx, in); err != nil {
-		return errwrap.Wrap("update target", err)
+	if txErr := s.txManager.ReadCommited(ctx, func(ctx context.Context) error {
+		if err := s.targetRepository.UpdateTarget(ctx, in); err != nil {
+			return errwrap.Wrap("update target", err)
+		}
+
+		count, err := s.targetRepository.CountIncompliteTargets(ctx, mission.ID)
+		if err != nil {
+			return errwrap.Wrap("count incomplite targets", err)
+		}
+
+		if count == 0 {
+			completed := true
+			params := dto.UpdateMissionParams{
+				ID:        mission.ID,
+				Completed: &completed,
+			}
+
+			if err := s.missionRepository.UpdateMission(ctx, params); err != nil {
+				return errwrap.Wrap("update mission", err)
+			}
+		}
+
+		return nil
+	}); txErr != nil {
+		return txErr
 	}
 
 	return nil

@@ -29,4 +29,5 @@ type TargetRepository interface {
 	UpdateTarget(ctx context.Context, in dto.UpdateTargetParams) error
 	DeleteTarget(ctx context.Context, targetID string) error
 	CreateTarget(ctx context.Context, missionID string, in dto.CreateTargetParams) (string, error)
+	CountIncompliteTargets(ctx context.Context, missionID string) (int, error)
 }

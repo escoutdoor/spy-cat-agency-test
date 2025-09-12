@@ -125,6 +125,7 @@ func (r *repository) GetTarget(ctx context.Context, targetID string) (entity.Tar
 	if err != nil {
 		return entity.Target{}, nil
 	}
+	defer row.Close()
 
 	if err := pgxscan.ScanOne(&target, row); err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
@@ -135,4 +136,26 @@ func (r *repository) GetTarget(ctx context.Context, targetID string) (entity.Tar
 	}
 
 	return target.ToServiceEntity(), nil
+}
+
+func (r *repository) CountIncompliteTargets(ctx context.Context, missionID string) (int, error) {
+	sql := "SELECT id FROM targets WHERE mission_id=$1 AND completed=false;"
+
+	q := database.Query{
+		Name: "target_repository.CountIncompliteTargets",
+		Sql:  sql,
+	}
+
+	rows, err := r.db.DB().QueryContext(ctx, q, missionID)
+	if err != nil {
+		return 0, executeSQLError(err)
+	}
+	defer rows.Close()
+
+	count := make([]string, 0, 3)
+	if err := pgxscan.ScanAll(&count, rows); err != nil {
+		return 0, scanRowsError(err)
+	}
+
+	return len(count), nil
 }

@@ -61,6 +61,7 @@ func (r *repository) GetMission(ctx context.Context, missionID string) (entity.M
 	if err != nil {
 		return entity.Mission{}, executeSQLError(err)
 	}
+	defer row.Close()
 
 	var mission MissionRows
 	if err := pgxscan.ScanAll(&mission, row); err != nil {
@@ -122,6 +123,7 @@ func (r *repository) ListMissions(ctx context.Context, limit, offset int) ([]ent
 	if err := pgxscan.ScanAll(&missions, rows); err != nil {
 		return nil, scanRowsError(err)
 	}
+	defer rows.Close()
 
 	return missions.ToServiceEntities(), nil
 }

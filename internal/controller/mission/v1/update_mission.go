@@ -10,8 +10,7 @@ import (
 )
 
 type updateMissionRequestBody struct {
-	Completed *bool   `json:"completed"`
-	CatID     *string `json:"catId" validate:"omitempty,uuid"`
+	CatID *string `json:"catId" validate:"omitempty,uuid"`
 }
 
 func (c *controller) updateMission(ctx fiber.Ctx) error {
@@ -68,8 +67,7 @@ func (c *controller) updateMission(ctx fiber.Ctx) error {
 
 func updateMissionRequestBodyToUpdateMissionParams(req updateMissionRequestBody, missionID string) dto.UpdateMissionParams {
 	return dto.UpdateMissionParams{
-		ID:        missionID,
-		CatID:     req.CatID,
-		Completed: req.Completed,
+		ID:    missionID,
+		CatID: req.CatID,
 	}
 }

@@ -39,3 +39,7 @@ func executeSQLError(err error) error {
 func scanRowError(err error) error {
 	return errwrap.Wrap("scan row", err)
 }
+
+func scanRowsError(err error) error {
+	return errwrap.Wrap("scan rows", err)
+}

@@ -43,6 +43,7 @@ func (r *repository) GetCat(ctx context.Context, catID string) (entity.Cat, erro
 	if err != nil {
 		return entity.Cat{}, executeSQLError(err)
 	}
+	defer row.Close()
 
 	var cat Cat
 	if err := pgxscan.ScanOne(&cat, row); err != nil {
@@ -80,6 +81,7 @@ func (r *repository) ListCats(ctx context.Context, limit, offset int) ([]entity.
 	if err != nil {
 		return nil, executeSQLError(err)
 	}
+	defer rows.Close()
 
 	var cats Cats
 	if err := pgxscan.ScanAll(&cats, rows); err != nil {
@@ -107,6 +109,7 @@ func (r *repository) UpdateCat(ctx context.Context, in dto.UpdateCatParams) (ent
 	if err != nil {
 		return entity.Cat{}, executeSQLError(err)
 	}
+	defer row.Close()
 
 	var cat Cat
 	if err := pgxscan.ScanOne(&cat, row); err != nil {
@@ -159,6 +162,7 @@ func (r *repository) CreateCat(ctx context.Context, in dto.CreateCatParams) (ent
 	if err != nil {
 		return entity.Cat{}, executeSQLError(err)
 	}
+	defer row.Close()
 
 	var cat Cat
 	if err := pgxscan.ScanOne(&cat, row); err != nil {
