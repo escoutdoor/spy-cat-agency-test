@@ -64,11 +64,10 @@ func (r *repository) GetMission(ctx context.Context, missionID string) (entity.M
 
 	var mission MissionRows
 	if err := pgxscan.ScanAll(&mission, row); err != nil {
-		if errors.Is(err, pgx.ErrNoRows) {
-			return entity.Mission{}, apperrors.MissionNotFoundWithID(missionID)
-		}
-
 		return entity.Mission{}, scanRowError(err)
+	}
+	if len(mission) == 0 {
+		return entity.Mission{}, apperrors.MissionNotFoundWithID(missionID)
 	}
 
 	return mission.ToServiceEntity(), nil
@@ -76,6 +75,13 @@ func (r *repository) GetMission(ctx context.Context, missionID string) (entity.M
 
 func (r *repository) ListMissions(ctx context.Context, limit, offset int) ([]entity.Mission, error) {
 	sql := `
+		WITH limited_missions AS (
+			SELECT *
+			FROM missions
+			ORDER BY created_at DESC
+			LIMIT $1
+			OFFSET $2
+		)
 		SELECT 
 			m.id AS id,
 			m.cat_id,
@@ -90,28 +96,24 @@ func (r *repository) ListMissions(ctx context.Context, limit, offset int) ([]ent
 			t.completed AS target_completed,
 			t.created_at AS target_created_at,
 			t.updated_at AS target_updated_at
-		FROM missions m
+		FROM limited_missions m
 		LEFT JOIN targets t ON t.mission_id = m.id
-		LIMIT @limit
-		OFFSET @offset
+		ORDER BY m.created_at DESC, t.created_at ASC;
 	`
-	args := pgx.NamedArgs{
-		"limit":  defaultLimit,
-		"offset": defaultOffset,
-	}
 
-	if limit > 0 {
-		args["limit"] = limit
+	if limit <= 0 {
+		limit = defaultLimit
 	}
-	if offset > 0 {
-		args["offset"] = offset
+	if offset <= 0 {
+		offset = defaultOffset
 	}
 
 	q := database.Query{
 		Name: "mission_repository.ListMissions",
 		Sql:  sql,
 	}
-	rows, err := r.db.DB().QueryContext(ctx, q, args)
+
+	rows, err := r.db.DB().QueryContext(ctx, q, limit, offset)
 	if err != nil {
 		return nil, executeSQLError(err)
 	}

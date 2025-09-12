@@ -47,6 +47,10 @@ func (c *controller) addTargets(ctx fiber.Ctx) error {
 				return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 					"error": appErr.Error(),
 				})
+			case apperrors.MissionNotFound:
+				return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+					"error": appErr.Error(),
+				})
 			case apperrors.TargetLimit:
 				return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 					"error": appErr.Error(),

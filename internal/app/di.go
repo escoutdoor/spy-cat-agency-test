@@ -91,6 +91,7 @@ func (d *diContainer) TargetService(ctx context.Context) service.TargetService {
 func (d *diContainer) MissionService(ctx context.Context) service.MissionService {
 	if d.missionService == nil {
 		d.missionService = mission_service.New(
+			d.CatRepisitory(ctx),
 			d.MissionRepository(ctx),
 			d.TargetRepository(ctx),
 			d.TxManager(ctx),

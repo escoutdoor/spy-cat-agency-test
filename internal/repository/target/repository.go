@@ -123,14 +123,14 @@ func (r *repository) GetTarget(ctx context.Context, targetID string) (entity.Tar
 	var target Target
 	row, err := r.db.DB().QueryContext(ctx, q, targetID)
 	if err != nil {
-		if errors.Is(err, pgx.ErrNoRows) {
-			return entity.Target{}, apperrors.TargetNotFoundWithID(targetID)
-		}
-
 		return entity.Target{}, nil
 	}
 
 	if err := pgxscan.ScanOne(&target, row); err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return entity.Target{}, apperrors.TargetNotFoundWithID(targetID)
+		}
+
 		return entity.Target{}, scanRowError(err)
 	}
 

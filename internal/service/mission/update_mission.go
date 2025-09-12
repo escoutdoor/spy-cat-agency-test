@@ -14,6 +14,10 @@ func (s *service) UpdateMission(ctx context.Context, in dto.UpdateMissionParams)
 	}
 
 	if in.CatID != nil {
+		if _, err := s.catRepository.GetCat(ctx, *in.CatID); err != nil {
+			return errwrap.Wrap("get cat from repository", err)
+		}
+
 		onMission, err := s.missionRepository.IsCatOnMission(ctx, *in.CatID)
 		if err != nil {
 			return errwrap.Wrap("check is cat on the mission", err)

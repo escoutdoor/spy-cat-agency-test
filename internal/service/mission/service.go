@@ -6,17 +6,20 @@ import (
 )
 
 type service struct {
+	catRepository     repository.CatRepisitory
 	missionRepository repository.MissionRepository
 	targetRepository  repository.TargetRepository
 	txManager         database.TxManager
 }
 
 func New(
+	catRepository repository.CatRepisitory,
 	missionRepository repository.MissionRepository,
 	targetRepository repository.TargetRepository,
 	txManager database.TxManager,
 ) *service {
 	return &service{
+		catRepository:     catRepository,
 		missionRepository: missionRepository,
 		targetRepository:  targetRepository,
 		txManager:         txManager,

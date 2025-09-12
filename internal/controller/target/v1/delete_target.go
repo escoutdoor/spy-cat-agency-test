@@ -23,6 +23,10 @@ func (c *controller) deleteTarget(ctx fiber.Ctx) error {
 				return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{
 					"error": appErr.Error(),
 				})
+			case apperrors.TargetLimit:
+				return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{
+					"error": appErr.Error(),
+				})
 			case apperrors.TargetAlreadyCompleted:
 				return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 					"error": appErr.Error(),

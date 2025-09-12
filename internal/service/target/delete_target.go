@@ -12,9 +12,16 @@ func (s *service) DeleteTarget(ctx context.Context, targetID string) error {
 	if err != nil {
 		return errwrap.Wrap("get target from repository", err)
 	}
-
 	if target.Completed {
 		return apperrors.TargetAlreadyCompletedWithID(targetID)
+	}
+
+	mission, err := s.missionRepository.GetMission(ctx, target.MissionID)
+	if err != nil {
+		return errwrap.Wrap("get mission from repository", err)
+	}
+	if len(mission.Targets) == 1 {
+		return apperrors.TargetsLimitErr
 	}
 
 	if err := s.targetRepository.DeleteTarget(ctx, targetID); err != nil {
