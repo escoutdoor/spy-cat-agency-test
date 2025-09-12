@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"net/url"
 	"time"
+
+	"github.com/escoutdoor/spy-cat-agency-test/pkg/errwrap"
 )
 
 const (
@@ -38,9 +40,18 @@ func New(apiKey string) *client {
 }
 
 func (c *client) Exists(ctx context.Context, breed string) (bool, error) {
-	u := fmt.Sprintf("%s/breeds/search?q=%s", baseURL, url.QueryEscape(breed))
+	u, err := url.Parse(baseURL + "/breeds/search")
+	if err != nil {
+		return false, fmt.Errorf("parse base url: %w", err)
+	}
+	q := u.Query()
+	q.Set("q", breed)
+	u.RawQuery = q.Encode()
 
-	req, _ := http.NewRequestWithContext(ctx, http.MethodGet, u, nil)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, u.String(), nil)
+	if err != nil {
+		return false, fmt.Errorf("build request: %w", err)
+	}
 	if c.apiKey != "" {
 		req.Header.Set("x-api-key", c.apiKey)
 	}
@@ -52,16 +63,16 @@ func (c *client) Exists(ctx context.Context, breed string) (bool, error) {
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return false, fmt.Errorf("cat api returned status: %d", resp.StatusCode)
+		return false, fmt.Errorf("cat api returned status: %s", resp.Status)
 	}
 
-	type cats struct {
-		ID string `json:"breed"`
+	type cat struct {
+		ID string `json:"id"`
 	}
 
-	var res []cats
+	var res []cat
 	if err := json.NewDecoder(resp.Body).Decode(&res); err != nil {
-		return false, err
+		return false, errwrap.Wrap("decode response", err)
 	}
 
 	return len(res) > 0, nil
