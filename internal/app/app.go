@@ -87,14 +87,17 @@ func (a *App) initHttpServer(ctx context.Context) error {
 		StructValidator: &structValidator{validate: validator.New()},
 		ErrorHandler: func(c fiber.Ctx, err error) error {
 			code := fiber.StatusInternalServerError
+			msg := "internal server error"
 
 			var e *fiber.Error
 			if errors.As(err, &e) {
 				code = e.Code
+				msg = e.Message
 			}
 
-			c.Status(code).JSON(fiber.Map{"error": "internal server error"})
-			return nil
+			return c.Status(code).JSON(fiber.Map{
+				"error": msg,
+			})
 		},
 	})
 
