@@ -21,7 +21,6 @@ func Register(a *fiber.App, targetService service.TargetService) {
 	ctl := &controller{targetService: targetService}
 	r := a.Group("/v1/targets")
 
-	r.Post("/:missionId", ctl.addTargets)
 	r.Delete("/:targetId", ctl.deleteTarget)
 	r.Patch("/:targetId", ctl.updateTarget)
 }

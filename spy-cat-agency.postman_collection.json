@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Murchik\",\r\n    \"yearsOfExperience\": 1,\r\n    \"breed\": \"American Shorthair\",\r\n    \"salary\": 1800\r\n}",
+							"raw": "{\r\n    \"name\": \"Motya\",\r\n    \"yearsOfExperience\": 3,\r\n    \"breed\": \"American Shorthair\",\r\n    \"salary\": 1800\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -154,34 +154,6 @@
 			"name": "targets",
 			"item": [
 				{
-					"name": "add targets",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"targets\": [\r\n        {\r\n            \"name\": \"Target #3\",\r\n            \"country\": \"Poland\"\r\n        }\r\n    ]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{ADDRESS}}/v1/targets/4524deec-aaa9-420e-aa78-0007b194c189",
-							"host": [
-								"{{ADDRESS}}"
-							],
-							"path": [
-								"v1",
-								"targets",
-								"4524deec-aaa9-420e-aa78-0007b194c189"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "delete target",
 					"request": {
 						"method": "DELETE",
@@ -207,7 +179,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"completed\":true\r\n}",
+							"raw": "{\r\n    \"completed\":true,\r\n    \"notes\": \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -215,14 +187,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{ADDRESS}}/v1/targets/a489efa4-2109-48da-bb50-d86a01917156",
+							"raw": "{{ADDRESS}}/v1/targets/68fabf45-a217-4082-a681-054ac4499733",
 							"host": [
 								"{{ADDRESS}}"
 							],
 							"path": [
 								"v1",
 								"targets",
-								"a489efa4-2109-48da-bb50-d86a01917156"
+								"68fabf45-a217-4082-a681-054ac4499733"
 							]
 						}
 					},
@@ -240,7 +212,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"targets\": [\r\n        {\r\n            \"name\": \"Target #1\",\r\n            \"country\": \"Portugal\"\r\n        },\r\n        {\r\n            \"name\": \"Target #2\",\r\n            \"country\": \"Spain\"\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"targets\": [\r\n        {\r\n            \"name\": \"Target #1\",\r\n            \"country\": \"Greece\"\r\n        },\r\n        {\r\n            \"name\": \"Target #2\",\r\n            \"country\": \"China\"\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -294,14 +266,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{ADDRESS}}/v1/missions/4524deec-aaa9-420e-aa78-0007b194c189",
+							"raw": "{{ADDRESS}}/v1/missions/919e3b79-95ac-491e-b351-f5781c06f4c4",
 							"host": [
 								"{{ADDRESS}}"
 							],
 							"path": [
 								"v1",
 								"missions",
-								"4524deec-aaa9-420e-aa78-0007b194c189"
+								"919e3b79-95ac-491e-b351-f5781c06f4c4"
 							]
 						}
 					},
@@ -350,14 +322,43 @@
 							}
 						},
 						"url": {
-							"raw": "{{ADDRESS}}/v1/missions/4524deec-aaa9-420e-aa78-0007b194c189",
+							"raw": "{{ADDRESS}}/v1/missions/68fabf45-a217-4082-a681-054ac4499733",
 							"host": [
 								"{{ADDRESS}}"
 							],
 							"path": [
 								"v1",
 								"missions",
-								"4524deec-aaa9-420e-aa78-0007b194c189"
+								"68fabf45-a217-4082-a681-054ac4499733"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add targets",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"targets\": [\r\n        {\r\n            \"name\": \"Target #3\",\r\n            \"country\": \"Poland\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ADDRESS}}/v1/missions/919e3b79-95ac-491e-b351-f5781c06f4c4/targets",
+							"host": [
+								"{{ADDRESS}}"
+							],
+							"path": [
+								"v1",
+								"missions",
+								"919e3b79-95ac-491e-b351-f5781c06f4c4",
+								"targets"
 							]
 						}
 					},

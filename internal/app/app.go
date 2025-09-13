@@ -101,7 +101,7 @@ func (a *App) initHttpServer(ctx context.Context) error {
 	app.Use(logger_middleware.New())
 
 	catv1.Register(app, a.di.CatService(ctx))
-	missionv1.Register(app, a.di.MissionService(ctx))
+	missionv1.Register(app, a.di.MissionService(ctx), a.di.TargetService(ctx))
 	targetv1.Register(app, a.di.TargetService(ctx))
 
 	a.httpServer = app
