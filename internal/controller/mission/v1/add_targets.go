@@ -39,7 +39,7 @@ func (c *controller) addTargets(ctx fiber.Ctx) error {
 		return err
 	}
 
-	if err := c.targetService.AddTargets(ctx, missionID, addTargetsRequestBodyToCreateMissionParams(req)); err != nil {
+	if err := c.missionService.AddTargets(ctx, missionID, addTargetsRequestBodyToCreateMissionParams(req)); err != nil {
 		appErr := new(apperrors.Error)
 		if errors.As(err, &appErr) {
 			switch appErr.Code {
