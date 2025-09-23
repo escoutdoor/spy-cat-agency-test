@@ -1,10 +1,7 @@
 package v1
 
 import (
-	"errors"
-
 	"github.com/escoutdoor/spy-cat-agency-test/internal/dto"
-	apperrors "github.com/escoutdoor/spy-cat-agency-test/internal/errors"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v3"
 )
@@ -34,12 +31,6 @@ func (c *controller) createCat(ctx fiber.Ctx) error {
 
 	cat, err := c.catService.CreateCat(ctx, createCatRequestBodyToCreateCatParams(req))
 	if err != nil {
-		appErr := new(apperrors.Error)
-		if errors.As(err, &appErr) {
-			return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{
-				"error": appErr.Error(),
-			})
-		}
 		return err
 	}
 

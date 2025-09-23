@@ -1,10 +1,7 @@
 package v1
 
 import (
-	"errors"
-
 	"github.com/escoutdoor/spy-cat-agency-test/internal/dto"
-	apperrors "github.com/escoutdoor/spy-cat-agency-test/internal/errors"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v3"
 )
@@ -40,24 +37,6 @@ func (c *controller) addTargets(ctx fiber.Ctx) error {
 	}
 
 	if err := c.missionService.AddTargets(ctx, missionID, addTargetsRequestBodyToCreateMissionParams(req)); err != nil {
-		appErr := new(apperrors.Error)
-		if errors.As(err, &appErr) {
-			switch appErr.Code {
-			case apperrors.MissionAlreadyCompleted:
-				return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-					"error": appErr.Error(),
-				})
-			case apperrors.MissionNotFound:
-				return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-					"error": appErr.Error(),
-				})
-			case apperrors.TargetLimit:
-				return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-					"error": appErr.Error(),
-				})
-			}
-		}
-
 		return err
 	}
 

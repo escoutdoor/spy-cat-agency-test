@@ -1,10 +1,7 @@
 package v1
 
 import (
-	"errors"
-
 	"github.com/escoutdoor/spy-cat-agency-test/internal/dto"
-	apperrors "github.com/escoutdoor/spy-cat-agency-test/internal/errors"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v3"
 )
@@ -36,29 +33,6 @@ func (c *controller) updateMission(ctx fiber.Ctx) error {
 	}
 
 	if err := c.missionService.UpdateMission(ctx, updateMissionRequestBodyToUpdateMissionParams(req, missionID)); err != nil {
-		appErr := new(apperrors.Error)
-		if errors.As(err, &appErr) {
-			if errors.As(err, &appErr) {
-				switch appErr.Code {
-				case apperrors.MissionNotFound:
-					return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{
-						"error": appErr.Error(),
-					})
-				case apperrors.CatNotFound:
-					return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-						"error": appErr.Error(),
-					})
-				case apperrors.CatOnMission:
-					return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-						"error": appErr.Error(),
-					})
-				case apperrors.NoFieldsNeedToBeUpdated:
-					return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-						"error": appErr.Error(),
-					})
-				}
-			}
-		}
 		return err
 	}
 

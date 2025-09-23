@@ -9,7 +9,6 @@ import (
 )
 
 const (
-	missionIDParam = "missionId"
 	targetIDParams = "targetId"
 )
 
@@ -23,18 +22,6 @@ func Register(a *fiber.App, targetService service.TargetService) {
 
 	r.Delete("/:targetId", ctl.deleteTarget)
 	r.Patch("/:targetId", ctl.updateTarget)
-}
-
-func validateMissionID(id string) error {
-	if len(id) == 0 {
-		return fmt.Errorf("mission id parameter is required")
-	}
-
-	if _, err := uuid.Parse(id); err != nil {
-		return fmt.Errorf("invalid mission id parameter, should be uuid")
-	}
-
-	return nil
 }
 
 func validateTargetID(id string) error {
