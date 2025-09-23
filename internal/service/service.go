@@ -21,10 +21,10 @@ type MissionService interface {
 	UpdateMission(ctx context.Context, in dto.UpdateMissionParams) error
 	ListMissions(ctx context.Context, limit, offset int) ([]entity.Mission, error)
 	GetMission(ctx context.Context, missionID string) (entity.Mission, error)
+	AddTargets(ctx context.Context, missionID string, in []dto.CreateTargetParams) error
 }
 
 type TargetService interface {
 	DeleteTarget(ctx context.Context, targetID string) error
-	AddTargets(ctx context.Context, missionID string, in []dto.CreateTargetParams) error
 	UpdateTarget(ctx context.Context, in dto.UpdateTargetParams) error
 }

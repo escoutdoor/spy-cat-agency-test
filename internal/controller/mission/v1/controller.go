@@ -16,11 +16,10 @@ const (
 
 type controller struct {
 	missionService service.MissionService
-	targetService  service.TargetService
 }
 
-func Register(a *fiber.App, missionService service.MissionService, targetService service.TargetService) {
-	ctl := &controller{missionService: missionService, targetService: targetService}
+func Register(a *fiber.App, missionService service.MissionService) {
+	ctl := &controller{missionService: missionService}
 	r := a.Group("/v1/missions")
 
 	r.Post("/", ctl.createMission)
