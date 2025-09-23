@@ -10,6 +10,8 @@ import (
 	catv1 "github.com/escoutdoor/spy-cat-agency-test/internal/controller/cat/v1"
 	missionv1 "github.com/escoutdoor/spy-cat-agency-test/internal/controller/mission/v1"
 	targetv1 "github.com/escoutdoor/spy-cat-agency-test/internal/controller/target/v1"
+	apperrors "github.com/escoutdoor/spy-cat-agency-test/internal/errors"
+	"github.com/escoutdoor/spy-cat-agency-test/internal/errors/code"
 	"github.com/escoutdoor/spy-cat-agency-test/pkg/closer"
 	"github.com/escoutdoor/spy-cat-agency-test/pkg/errwrap"
 	"github.com/escoutdoor/spy-cat-agency-test/pkg/logger"
@@ -86,17 +88,30 @@ func (a *App) initHttpServer(ctx context.Context) error {
 		ReadTimeout:     time.Second * 5,
 		StructValidator: &structValidator{validate: validator.New()},
 		ErrorHandler: func(c fiber.Ctx, err error) error {
-			code := fiber.StatusInternalServerError
-			msg := "internal server error"
-
-			var e *fiber.Error
-			if errors.As(err, &e) {
-				code = e.Code
-				msg = e.Message
+			appErr := new(apperrors.Error)
+			if errors.As(err, &appErr) {
+				switch appErr.Code {
+				case code.CatNotFound,
+					code.MissionNotFound,
+					code.TargetNotFound:
+					return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+						"error": appErr.Error(),
+					})
+				case code.CatBreedDoesNotExist,
+					code.CatOnMission,
+					code.MissionCannotBeDeletedAssignedToCat,
+					code.NoFieldsNeedToBeUpdated,
+					code.MissionAlreadyCompleted,
+					code.TargetAlreadyCompleted,
+					code.TargetLimit:
+					return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+						"error": appErr.Error(),
+					})
+				}
 			}
 
-			return c.Status(code).JSON(fiber.Map{
-				"error": msg,
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"error": "internal server error",
 			})
 		},
 	})
